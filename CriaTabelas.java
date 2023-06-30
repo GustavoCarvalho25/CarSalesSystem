@@ -1,10 +1,8 @@
 import java.sql.*;
 
-class CriaTabelas {
+public class CriaTabelas {
 
-
-
-    public static void CriaTabelas(Connection _conn,  Statement _stmt) {
+    public static void CriaTabelasSistema(Connection _conn,  Statement _stmt) {
         try {
             Class.forName("org.hsql.jdbcDriver");
             Connection con = _conn;
