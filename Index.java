@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
@@ -25,16 +27,18 @@ public class Index extends JFrame implements ActionListener {
     }
 
     public Index() {
-        super("Car System Sales");
-        setBounds(0, 0, 700, 500);
+        super("Car Sales System");
+        setPreferredSize(new Dimension(1200, 700));
+        setMaximumSize(new Dimension(1200, 900));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.NORMAL);
+
         desktop = new JPanel(new BorderLayout());
         add(desktop);
-        System.out.println("Entrou no Index");
         setJMenuBar(criaMenu());
         iniciaBD();
         CriaTabelas.CriaTabelasSistema(con, stmt);
+        pack();
         setLocationRelativeTo(null);
 
         setVisible(true);
@@ -177,7 +181,6 @@ public class Index extends JFrame implements ActionListener {
     class CarrosPanelAdiciona extends JPanel {
         public CarrosPanelAdiciona() {
             setLayout(new BorderLayout());
-            setSize(300, 200);
 
             // Adicione os componentes da tela de adicionar carros aqui
             JPanel panel = new JPanel();
@@ -190,7 +193,6 @@ public class Index extends JFrame implements ActionListener {
     class CarrosPanelBusca extends JPanel {
         public CarrosPanelBusca() {
             setLayout(new BorderLayout());
-            setSize(300, 200);
 
             // Adicione os componentes da tela de buscar carros aqui
             JPanel panel = new JPanel();
@@ -203,7 +205,6 @@ public class Index extends JFrame implements ActionListener {
     class CarrosPanelLista extends JPanel {
         public CarrosPanelLista() {
             setLayout(new BorderLayout());
-            setSize(300, 200);
 
             // Adicione os componentes da tela de listar carros aqui
             JPanel panel = new JPanel();
@@ -216,7 +217,6 @@ public class Index extends JFrame implements ActionListener {
     class ClientesPanelAdiciona extends JPanel {
         public ClientesPanelAdiciona() {
             setLayout(new BorderLayout());
-            setSize(300, 200);
 
             // Adicione os componentes da tela de adicionar clientes aqui
             JPanel panel = new JPanel();
@@ -229,7 +229,6 @@ public class Index extends JFrame implements ActionListener {
     class ClientesPanelBusca extends JPanel {
         public ClientesPanelBusca() {
             setLayout(new BorderLayout());
-            setSize(300, 200);
 
             // Adicione os componentes da tela de buscar clientes aqui
             JPanel panel = new JPanel();
@@ -242,7 +241,6 @@ public class Index extends JFrame implements ActionListener {
     class ClientesPanelLista extends JPanel {
         public ClientesPanelLista() {
             setLayout(new BorderLayout());
-            setSize(300, 200);
 
             // Adicione os componentes da tela de listar clientes aqui
             JPanel panel = new JPanel();
@@ -255,7 +253,6 @@ public class Index extends JFrame implements ActionListener {
     class PedidosPanelAdiciona extends JPanel {
         public PedidosPanelAdiciona() {
             setLayout(new BorderLayout());
-            setSize(300, 200);
 
             // Adicione os componentes da tela de adicionar pedidos aqui
             JPanel panel = new JPanel();
@@ -268,7 +265,6 @@ public class Index extends JFrame implements ActionListener {
     class PedidosPanelBusca extends JPanel {
         public PedidosPanelBusca() {
             setLayout(new BorderLayout());
-            setSize(300, 200);
 
             // Adicione os componentes da tela de buscar pedidos aqui
             JPanel panel = new JPanel();
@@ -281,7 +277,6 @@ public class Index extends JFrame implements ActionListener {
     class PedidosPanelLista extends JPanel {
         public PedidosPanelLista() {
             setLayout(new BorderLayout());
-            setSize(300, 200);
 
             // Adicione os componentes da tela de listar pedidos aqui
             JPanel panel = new JPanel();
@@ -290,17 +285,19 @@ public class Index extends JFrame implements ActionListener {
         }
     }
 
-    class HomePanel extends JPanel {
-        public HomePanel() {
-            setLayout(new BorderLayout());
+public class HomePanel extends JPanel {
+    public HomePanel() {
+        setLayout(new BorderLayout());
 
-            ImageIcon imageIcon = new ImageIcon("../imgs/car.png");
-            JLabel imageLabel = new JLabel(imageIcon);
-            add(imageLabel, BorderLayout.WEST);
-
-            JLabel welcomeLabel = new JLabel("Bem-vindo ao sistema de carros!");
-            welcomeLabel.setFont(new Font("Arial", Font.BOLD, 20));
-            add(welcomeLabel, BorderLayout.CENTER);
-        }
+        ImageIcon imageIcon = new ImageIcon("./imgs/home_Carro.png");
+        JLabel imageLabel = new JLabel(imageIcon);
+        imageLabel.setBorder(new EmptyBorder(0, 60, 0, 0)); // Define a margem interna esquerda
+        add(imageLabel, BorderLayout.WEST);
+        
+        JLabel welcomeLabel = new JLabel("Bem-vindo ao CSS!");
+        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 40));
+        welcomeLabel.setBorder(new EmptyBorder(0, 35, 0, 0));
+        add(welcomeLabel, BorderLayout.CENTER);
     }
+}
 }
