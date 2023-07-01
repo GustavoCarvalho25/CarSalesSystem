@@ -21,7 +21,7 @@ public class Cliente {
         clientesPanelBusca = new ClientesPanelBusca();
         clientesPanelLista = new ClientesPanelLista();
     }
-    
+
     // Classe para adicionar clientes
     class ClientesPanelAdiciona extends JPanel {
         private JTextField nomeTextField;
