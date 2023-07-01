@@ -182,10 +182,114 @@ public class Index extends JFrame implements ActionListener {
         public CarrosPanelAdiciona() {
             setLayout(new BorderLayout());
 
-            // Adicione os componentes da tela de adicionar carros aqui
-            JPanel panel = new JPanel();
-            panel.add(new JLabel("Tela de Adicionar Carros"));
-            add(panel, BorderLayout.CENTER);
+            JPanel mainPanel = new JPanel(new BorderLayout()); // Painel principal
+            JPanel leftPanel = new JPanel(new BorderLayout()); // Painel para a imagem à esquerda
+
+            // Ícone à esquerda
+            ImageIcon icon = new ImageIcon("./imgs/adiciona_Carro.png");
+            JLabel iconLabel = new JLabel(icon);
+            leftPanel.add(iconLabel, BorderLayout.CENTER);
+
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.anchor = GridBagConstraints.WEST;
+            constraints.insets = new Insets(5, 5, 5, 5); // Define as margens internas dos componentes
+
+            JPanel formPanel = new JPanel(new GridBagLayout());
+            formPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+            // Campo de texto para Marca
+            JLabel marcaLabel = new JLabel("Marca:");
+            marcaLabel.setFont(marcaLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
+            JTextField marcaTextField = new JTextField(20);
+            marcaTextField.setFont(marcaTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            formPanel.add(marcaLabel, constraints);
+            constraints.gridy = 1;
+            formPanel.add(marcaTextField, constraints);
+
+            // Campo de texto para Modelo
+            JLabel modeloLabel = new JLabel("Modelo:");
+            modeloLabel.setFont(modeloLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
+            JTextField modeloTextField = new JTextField(20);
+            modeloTextField.setFont(modeloTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
+            constraints.gridy = 2;
+            formPanel.add(modeloLabel, constraints);
+            constraints.gridy = 3;
+            formPanel.add(modeloTextField, constraints);
+
+            // Campo de texto para Cor
+            JLabel corLabel = new JLabel("Cor:");
+            corLabel.setFont(corLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
+            JTextField corTextField = new JTextField(20);
+            corTextField.setFont(corTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
+            constraints.gridy = 4;
+            formPanel.add(corLabel, constraints);
+            constraints.gridy = 5;
+            formPanel.add(corTextField, constraints);
+
+            // Campo de texto para Preço
+            JLabel precoLabel = new JLabel("Preço:");
+            precoLabel.setFont(precoLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
+            JTextField precoTextField = new JTextField(20);
+            precoTextField.setFont(precoTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
+            constraints.gridy = 6;
+            formPanel.add(precoLabel, constraints);
+            constraints.gridy = 7;
+            formPanel.add(precoTextField, constraints);
+
+            // Botão "Adicionar"
+            JButton adicionarButton = new JButton("Adicionar");
+            constraints.gridx = 0;
+            constraints.gridy = GridBagConstraints.RELATIVE;
+            constraints.gridwidth = GridBagConstraints.REMAINDER;
+            constraints.anchor = GridBagConstraints.EAST;
+            constraints.insets = new Insets(10, 0, 0, 5);
+            formPanel.add(adicionarButton, constraints);
+
+            adicionarButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String marca = marcaTextField.getText().trim();
+                    String modelo = modeloTextField.getText().trim();
+                    String cor = corTextField.getText().trim();
+                    String preco = precoTextField.getText().trim();
+
+                    // Verificações e condições
+                    if (marca.length() > 30 || modelo.length() > 30 || cor.length() > 30) {
+                        JOptionPane.showMessageDialog(CarrosPanelAdiciona.this,
+                                "A marca, modelo e cor devem ter no máximo 30 caracteres.",
+                                "Erro", JOptionPane.ERROR_MESSAGE);
+                    } else if (!preco.matches("\\d+(.\\d{1,2})?")) {
+                        JOptionPane.showMessageDialog(CarrosPanelAdiciona.this,
+                                "O preço deve ser um número válido no formato XX ou XX,XX.",
+                                "Erro", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        String insertCarro = "'" + marca + "'" + ", " + "'" + modelo + "'" + ", " + "'" + cor + "'"
+                                + ", " + preco;
+                        try {
+                            Class.forName("org.hsql.jdbcDriver");
+                            stmt.executeUpdate("INSERT INTO CARRO(MARCA, MODELO, COR, PRECO) VALUES (" + insertCarro + ")");
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+                        }
+                        JOptionPane.showMessageDialog(CarrosPanelAdiciona.this,
+                                "Carro adicionado com sucesso!\n",
+                                "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                        // Limpar os campos
+                        marcaTextField.setText("");
+                        modeloTextField.setText("");
+                        corTextField.setText("");
+                        precoTextField.setText("");
+                    }
+                }
+            });
+
+            mainPanel.add(leftPanel, BorderLayout.WEST);
+            mainPanel.add(formPanel, BorderLayout.CENTER);
+
+            add(mainPanel, BorderLayout.CENTER);
+            setBorder(BorderFactory.createEmptyBorder(10, 100, 10, 0));
         }
     }
 
@@ -285,19 +389,19 @@ public class Index extends JFrame implements ActionListener {
         }
     }
 
-public class HomePanel extends JPanel {
-    public HomePanel() {
-        setLayout(new BorderLayout());
+    public class HomePanel extends JPanel {
+        public HomePanel() {
+            setLayout(new BorderLayout());
 
-        ImageIcon imageIcon = new ImageIcon("./imgs/home_Carro.png");
-        JLabel imageLabel = new JLabel(imageIcon);
-        imageLabel.setBorder(new EmptyBorder(0, 60, 0, 0)); // Define a margem interna esquerda
-        add(imageLabel, BorderLayout.WEST);
-        
-        JLabel welcomeLabel = new JLabel("Bem-vindo ao CSS!");
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 40));
-        welcomeLabel.setBorder(new EmptyBorder(0, 35, 0, 0));
-        add(welcomeLabel, BorderLayout.CENTER);
+            ImageIcon imageIcon = new ImageIcon("./imgs/home_Carro.png");
+            JLabel imageLabel = new JLabel(imageIcon);
+            imageLabel.setBorder(new EmptyBorder(0, 60, 0, 0)); // Define a margem interna esquerda
+            add(imageLabel, BorderLayout.WEST);
+
+            JLabel welcomeLabel = new JLabel("Bem-vindo ao CSS!");
+            welcomeLabel.setFont(new Font("Arial", Font.BOLD, 40));
+            welcomeLabel.setBorder(new EmptyBorder(0, 35, 0, 0));
+            add(welcomeLabel, BorderLayout.CENTER);
+        }
     }
-}
 }
