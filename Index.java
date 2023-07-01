@@ -269,7 +269,8 @@ public class Index extends JFrame implements ActionListener {
                                 + ", " + preco;
                         try {
                             Class.forName("org.hsql.jdbcDriver");
-                            stmt.executeUpdate("INSERT INTO CARRO(MARCA, MODELO, COR, PRECO) VALUES (" + insertCarro + ")");
+                            stmt.executeUpdate(
+                                    "INSERT INTO CARRO(MARCA, MODELO, COR, PRECO) VALUES (" + insertCarro + ")");
                         } catch (Exception ex) {
                             System.out.println(ex);
                         }
@@ -322,10 +323,122 @@ public class Index extends JFrame implements ActionListener {
         public ClientesPanelAdiciona() {
             setLayout(new BorderLayout());
 
-            // Adicione os componentes da tela de adicionar clientes aqui
-            JPanel panel = new JPanel();
-            panel.add(new JLabel("Tela de Adicionar Clientes"));
-            add(panel, BorderLayout.CENTER);
+            JPanel mainPanel = new JPanel(new BorderLayout()); // Painel principal
+            JPanel leftPanel = new JPanel(new BorderLayout()); // Painel para a imagem à esquerda
+
+            // Ícone à esquerda
+            ImageIcon icon = new ImageIcon("./imgs/adiciona_Cliente.png");
+            JLabel iconLabel = new JLabel(icon);
+            leftPanel.add(iconLabel, BorderLayout.CENTER);
+
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.anchor = GridBagConstraints.WEST;
+            constraints.insets = new Insets(5, 5, 5, 5); // Define as margens internas dos componentes
+
+            JPanel formPanel = new JPanel(new GridBagLayout());
+            formPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+            // Campo de texto para Nome
+            JLabel nomeLabel = new JLabel("Nome:");
+            nomeLabel.setFont(nomeLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
+            JTextField nomeTextField = new JTextField(20);
+            nomeTextField.setFont(nomeTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            formPanel.add(nomeLabel, constraints);
+            constraints.gridy = 1;
+            formPanel.add(nomeTextField, constraints);
+
+            // Campo de texto para Endereço
+            JLabel enderecoLabel = new JLabel("Endereço:");
+            enderecoLabel.setFont(enderecoLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
+            JTextField enderecoTextField = new JTextField(20);
+            enderecoTextField.setFont(enderecoTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da
+                                                                                               // fonte
+            constraints.gridy = 2;
+            formPanel.add(enderecoLabel, constraints);
+            constraints.gridy = 3;
+            formPanel.add(enderecoTextField, constraints);
+
+            // Campo de texto para Telefone
+            JLabel telefoneLabel = new JLabel("Telefone:");
+            telefoneLabel.setFont(telefoneLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
+            JTextField telefoneTextField = new JTextField(20);
+            telefoneTextField.setFont(telefoneTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da
+                                                                                               // fonte
+            constraints.gridy = 4;
+            formPanel.add(telefoneLabel, constraints);
+            constraints.gridy = 5;
+            formPanel.add(telefoneTextField, constraints);
+
+            // Campo de texto para CPF
+            JLabel cpfLabel = new JLabel("CPF:");
+            cpfLabel.setFont(cpfLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
+            JTextField cpfTextField = new JTextField(20);
+            cpfTextField.setFont(cpfTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
+            constraints.gridy = 6;
+            formPanel.add(cpfLabel, constraints);
+            constraints.gridy = 7;
+            formPanel.add(cpfTextField, constraints);
+
+            // Botão "Adicionar"
+            JButton adicionarButton = new JButton("Adicionar");
+            constraints.gridx = 0;
+            constraints.gridy = GridBagConstraints.RELATIVE;
+            constraints.gridwidth = GridBagConstraints.REMAINDER;
+            constraints.anchor = GridBagConstraints.EAST;
+            constraints.insets = new Insets(10, 0, 0, 5);
+            formPanel.add(adicionarButton, constraints);
+
+            adicionarButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String nome = nomeTextField.getText().trim();
+                    String endereco = enderecoTextField.getText().trim();
+                    String telefone = telefoneTextField.getText().trim();
+                    String cpf = cpfTextField.getText().trim();
+
+                    // Verificações e condições
+                    if (nome.isEmpty() || endereco.isEmpty() || telefone.isEmpty() || cpf.isEmpty()) {
+                        JOptionPane.showMessageDialog(ClientesPanelAdiciona.this,
+                                "Todos os campos devem ser preenchidos.",
+                                "Erro", JOptionPane.ERROR_MESSAGE);
+                    } else if (!nome.matches("[A-Za-zÀ-ÖØ-öø-ÿ]+")) {
+                        JOptionPane.showMessageDialog(ClientesPanelAdiciona.this,
+                                "O nome deve conter apenas letras.",
+                                "Erro", JOptionPane.ERROR_MESSAGE);
+                    } else if (!cpf.matches("\\d+")) {
+                        JOptionPane.showMessageDialog(ClientesPanelAdiciona.this,
+                                "O CPF deve conter apenas números.",
+                                "Erro", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        // Inserir os dados do cliente no banco de dados
+                        try {
+                            Class.forName("org.hsql.jdbcDriver");
+                            stmt.executeUpdate("INSERT INTO CLIENTE(NOME, ENDERECO, TELEFONE, CPF) VALUES ('" + nome
+                                    + "', '" + endereco + "', '" + telefone + "', '" + cpf + "')");
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+                        }
+
+                        JOptionPane.showMessageDialog(ClientesPanelAdiciona.this,
+                                "Cliente adicionado com sucesso!\n",
+                                "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+                        // Limpar os campos
+                        nomeTextField.setText("");
+                        enderecoTextField.setText("");
+                        telefoneTextField.setText("");
+                        cpfTextField.setText("");
+                    }
+                }
+            });
+
+            mainPanel.add(leftPanel, BorderLayout.WEST);
+            mainPanel.add(formPanel, BorderLayout.CENTER);
+
+            add(mainPanel, BorderLayout.CENTER);
+            setBorder(BorderFactory.createEmptyBorder(10, 100, 10, 0));
         }
     }
 
