@@ -49,19 +49,20 @@ public class Index extends JFrame implements ActionListener {
     }
 
     private JMenuBar criaMenu() {
+
         JMenuBar menuBar = new JMenuBar();
         Color black = new Color(0, 0, 0);
         Color orange = new Color(239, 165, 82);
         Color subOrange = new Color(250, 225, 199);
+        Font menuFont = new Font("Arial", Font.PLAIN, 20);
+        Font menuItemFont = new Font("Arial", Font.PLAIN, 20);
+
         UIManager.put("MenuBar.border", BorderFactory.createLineBorder(black, 1));
         UIManager.put("MenuBar.background", orange);
         UIManager.put("MenuItem.background", subOrange);
         UIManager.put("Menu.foreground", black);
         UIManager.put("MenuItem.foreground", black);
-        Font menuFont = new Font("Arial", Font.PLAIN, 20);
         UIManager.put("Menu.font", menuFont);
-
-        Font menuItemFont = new Font("Arial", Font.PLAIN, 20);
         UIManager.put("MenuItem.font", menuItemFont);
 
         JMenu homePage = new JMenu("Home");
@@ -106,9 +107,11 @@ public class Index extends JFrame implements ActionListener {
         clientesMenuItemAdiciona = new JMenuItem("Adicionar");
         clientesMenuItemBusca = new JMenuItem("Buscar");
         clientesMenuItemLista = new JMenuItem("Listar");
+
         clientesMenuItemAdiciona.addActionListener(this);
         clientesMenuItemBusca.addActionListener(this);
         clientesMenuItemLista.addActionListener(this);
+
         clientes.add(clientesMenuItemAdiciona);
         clientes.add(clientesMenuItemBusca);
         clientes.add(clientesMenuItemLista);
@@ -116,9 +119,11 @@ public class Index extends JFrame implements ActionListener {
         pedidosMenuItemAdiciona = new JMenuItem("Adicionar");
         pedidosMenuItemBusca = new JMenuItem("Buscar");
         pedidosMenuItemLista = new JMenuItem("Listar");
+
         pedidosMenuItemAdiciona.addActionListener(this);
         pedidosMenuItemBusca.addActionListener(this);
         pedidosMenuItemLista.addActionListener(this);
+
         pedidos.add(pedidosMenuItemAdiciona);
         pedidos.add(pedidosMenuItemBusca);
         pedidos.add(pedidosMenuItemLista);
@@ -147,21 +152,29 @@ public class Index extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == carrosMenuItemAdiciona) {
             trocarPainel(new CarrosPanelAdiciona());
-        } else if (e.getSource() == carrosMenuItemBusca) {
+        }
+        if (e.getSource() == carrosMenuItemBusca) {
             trocarPainel(new CarrosPanelBusca());
-        } else if (e.getSource() == carrosMenuItemLista) {
+        }
+        if (e.getSource() == carrosMenuItemLista) {
             trocarPainel(new CarrosPanelLista());
-        } else if (e.getSource() == clientesMenuItemAdiciona) {
+        }
+        if (e.getSource() == clientesMenuItemAdiciona) {
             trocarPainel(new ClientesPanelAdiciona());
-        } else if (e.getSource() == clientesMenuItemBusca) {
+        }
+        if (e.getSource() == clientesMenuItemBusca) {
             trocarPainel(new ClientesPanelBusca());
-        } else if (e.getSource() == clientesMenuItemLista) {
+        }
+        if (e.getSource() == clientesMenuItemLista) {
             trocarPainel(new ClientesPanelLista());
-        } else if (e.getSource() == pedidosMenuItemAdiciona) {
+        }
+        if (e.getSource() == pedidosMenuItemAdiciona) {
             trocarPainel(new PedidosPanelAdiciona());
-        } else if (e.getSource() == pedidosMenuItemBusca) {
+        }
+        if (e.getSource() == pedidosMenuItemBusca) {
             trocarPainel(new PedidosPanelBusca());
-        } else if (e.getSource() == pedidosMenuItemLista) {
+        }
+        if (e.getSource() == pedidosMenuItemLista) {
             trocarPainel(new PedidosPanelLista());
         }
     }
@@ -181,6 +194,11 @@ public class Index extends JFrame implements ActionListener {
 
     // Classe para adicionar carros
     class CarrosPanelAdiciona extends JPanel {
+        private JTextField marcaTextField;
+        private JTextField modeloTextField;
+        private JTextField corTextField;
+        private JTextField precoTextField;
+
         public CarrosPanelAdiciona() {
             setLayout(new BorderLayout());
 
@@ -202,7 +220,7 @@ public class Index extends JFrame implements ActionListener {
             // Campo de texto para Marca
             JLabel marcaLabel = new JLabel("Marca:");
             marcaLabel.setFont(marcaLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
-            JTextField marcaTextField = new JTextField(20);
+            marcaTextField = new JTextField(20);
             marcaTextField.setFont(marcaTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
             constraints.gridx = 0;
             constraints.gridy = 0;
@@ -213,7 +231,7 @@ public class Index extends JFrame implements ActionListener {
             // Campo de texto para Modelo
             JLabel modeloLabel = new JLabel("Modelo:");
             modeloLabel.setFont(modeloLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
-            JTextField modeloTextField = new JTextField(20);
+            modeloTextField = new JTextField(20);
             modeloTextField.setFont(modeloTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
             constraints.gridy = 2;
             formPanel.add(modeloLabel, constraints);
@@ -223,7 +241,7 @@ public class Index extends JFrame implements ActionListener {
             // Campo de texto para Cor
             JLabel corLabel = new JLabel("Cor:");
             corLabel.setFont(corLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
-            JTextField corTextField = new JTextField(20);
+            corTextField = new JTextField(20);
             corTextField.setFont(corTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
             constraints.gridy = 4;
             formPanel.add(corLabel, constraints);
@@ -233,7 +251,7 @@ public class Index extends JFrame implements ActionListener {
             // Campo de texto para Preço
             JLabel precoLabel = new JLabel("Preço:");
             precoLabel.setFont(precoLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
-            JTextField precoTextField = new JTextField(20);
+            precoTextField = new JTextField(20);
             precoTextField.setFont(precoTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
             constraints.gridy = 6;
             formPanel.add(precoLabel, constraints);
@@ -252,39 +270,7 @@ public class Index extends JFrame implements ActionListener {
             adicionarButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String marca = marcaTextField.getText().trim();
-                    String modelo = modeloTextField.getText().trim();
-                    String cor = corTextField.getText().trim();
-                    String preco = precoTextField.getText().trim();
-
-                    // Verificações e condições
-                    if (marca.length() > 30 || modelo.length() > 30 || cor.length() > 30) {
-                        JOptionPane.showMessageDialog(CarrosPanelAdiciona.this,
-                                "A marca, modelo e cor devem ter no máximo 30 caracteres.",
-                                "Erro", JOptionPane.ERROR_MESSAGE);
-                    } else if (!preco.matches("\\d+(.\\d{1,2})?")) {
-                        JOptionPane.showMessageDialog(CarrosPanelAdiciona.this,
-                                "O preço deve ser um número válido no formato XX ou XX,XX.",
-                                "Erro", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        String insertCarro = "'" + marca + "'" + ", " + "'" + modelo + "'" + ", " + "'" + cor + "'"
-                                + ", " + preco;
-                        try {
-                            Class.forName("org.hsql.jdbcDriver");
-                            stmt.executeUpdate(
-                                    "INSERT INTO CARRO(MARCA, MODELO, COR, PRECO) VALUES (" + insertCarro + ")");
-                        } catch (Exception ex) {
-                            System.out.println(ex);
-                        }
-                        JOptionPane.showMessageDialog(CarrosPanelAdiciona.this,
-                                "Carro adicionado com sucesso!\n",
-                                "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                        // Limpar os campos
-                        marcaTextField.setText("");
-                        modeloTextField.setText("");
-                        corTextField.setText("");
-                        precoTextField.setText("");
-                    }
+                    adicionarButtonActionPerformed(e);
                 }
             });
 
@@ -294,17 +280,186 @@ public class Index extends JFrame implements ActionListener {
             add(mainPanel, BorderLayout.CENTER);
             setBorder(BorderFactory.createEmptyBorder(10, 100, 10, 0));
         }
+
+        private void adicionarButtonActionPerformed(ActionEvent e) {
+            String marca = marcaTextField.getText().trim();
+            String modelo = modeloTextField.getText().trim();
+            String cor = corTextField.getText().trim();
+            String preco = precoTextField.getText().trim();
+
+            // Verificações e condições
+            if (marca.length() > 30 || modelo.length() > 30 || cor.length() > 30) {
+                JOptionPane.showMessageDialog(this,
+                        "A marca, modelo e cor devem ter no máximo 30 caracteres.",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+            } else if (!preco.matches("\\d+(.\\d{1,2})?")) {
+                JOptionPane.showMessageDialog(this,
+                        "O preço deve ser um número válido no formato XX ou XX,XX.",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+            } else {
+                String insertCarro = "'" + marca + "'" + ", " + "'" + modelo + "'" + ", " + "'" + cor + "'"
+                        + ", " + preco;
+                try {
+                    Class.forName("org.hsql.jdbcDriver");
+                    stmt.executeUpdate(
+                            "INSERT INTO CARRO(MARCA, MODELO, COR, PRECO) VALUES (" + insertCarro + ")");
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+                JOptionPane.showMessageDialog(this,
+                        "Carro adicionado com sucesso!\n",
+                        "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                // Limpar os campos
+                marcaTextField.setText("");
+                modeloTextField.setText("");
+                corTextField.setText("");
+                precoTextField.setText("");
+            }
+        }
     }
 
     // Classe para buscar carros
-    class CarrosPanelBusca extends JPanel {
+    public class CarrosPanelBusca extends JPanel {
+        private JTextField idBuscaTextField;
+        private JTextField marcaTextField;
+        private JTextField modeloTextField;
+        private JTextField anoTextField;
+        private JTextField corTextField;
+
         public CarrosPanelBusca() {
             setLayout(new BorderLayout());
 
-            // Adicione os componentes da tela de buscar carros aqui
-            JPanel panel = new JPanel();
-            panel.add(new JLabel("Tela de Buscar Carros"));
-            add(panel, BorderLayout.CENTER);
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            JPanel formPanel = new JPanel(new GridBagLayout());
+
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.anchor = GridBagConstraints.WEST;
+            constraints.insets = new Insets(5, 5, 5, 5);
+
+            // Campo de busca por ID
+            JLabel idBuscaLabel = new JLabel("ID de busca:");
+            idBuscaLabel.setFont(idBuscaLabel.getFont().deriveFont(Font.BOLD, 16));
+            idBuscaTextField = new JTextField(10);
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            formPanel.add(idBuscaLabel, constraints);
+            constraints.gridy = 1;
+            formPanel.add(idBuscaTextField, constraints);
+
+            // Botão "Buscar"
+            JButton buscarButton = new JButton("Buscar");
+            constraints.gridx = 1;
+            constraints.gridy = 1;
+            constraints.insets = new Insets(5, 10, 5, 5);
+            formPanel.add(buscarButton, constraints);
+
+            // Campos de texto para exibir os dados do carro
+            JLabel marcaLabel = new JLabel("Marca:");
+            marcaLabel.setFont(marcaLabel.getFont().deriveFont(Font.BOLD, 16));
+            marcaTextField = new JTextField(20);
+            marcaTextField.setEditable(false);
+            constraints.gridx = 0;
+            constraints.gridy = 2;
+            constraints.insets = new Insets(10, 5, 5, 5);
+            formPanel.add(marcaLabel, constraints);
+            constraints.gridy = 3;
+            formPanel.add(marcaTextField, constraints);
+
+            JLabel modeloLabel = new JLabel("Modelo:");
+            modeloLabel.setFont(modeloLabel.getFont().deriveFont(Font.BOLD, 16));
+            modeloTextField = new JTextField(20);
+            modeloTextField.setEditable(false);
+            constraints.gridy = 4;
+            formPanel.add(modeloLabel, constraints);
+            constraints.gridy = 5;
+            formPanel.add(modeloTextField, constraints);
+
+            JLabel anoLabel = new JLabel("Ano:");
+            anoLabel.setFont(anoLabel.getFont().deriveFont(Font.BOLD, 16));
+            anoTextField = new JTextField(20);
+            anoTextField.setEditable(false);
+            constraints.gridy = 6;
+            formPanel.add(anoLabel, constraints);
+            constraints.gridy = 7;
+            formPanel.add(anoTextField, constraints);
+
+            JLabel corLabel = new JLabel("Cor:");
+            corLabel.setFont(corLabel.getFont().deriveFont(Font.BOLD, 16));
+            corTextField = new JTextField(20);
+            corTextField.setEditable(false);
+            constraints.gridy = 8;
+            formPanel.add(corLabel, constraints);
+            constraints.gridy = 9;
+            formPanel.add(corTextField, constraints);
+
+            // Botões "Excluir" e "Alterar"
+            JButton excluirButton = new JButton("Excluir");
+            JButton alterarButton = new JButton("Alterar");
+            constraints.gridx = 0;
+            constraints.gridy = 10;
+            constraints.gridwidth = 2;
+            constraints.anchor = GridBagConstraints.CENTER;
+            constraints.insets = new Insets(20, 0, 0, 0);
+            formPanel.add(excluirButton, constraints);
+            constraints.gridy = 11;
+            formPanel.add(alterarButton, constraints);
+
+            buscarButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String idBusca = idBuscaTextField.getText().trim();
+
+                    // Verificação e condição
+                    if (idBusca.isEmpty()) {
+                        JOptionPane.showMessageDialog(CarrosPanelBusca.this,
+                                "O campo de busca por ID está vazio.",
+                                "Erro", JOptionPane.ERROR_MESSAGE);
+                    } else if (!idBusca.matches("\\d+")) {
+                        JOptionPane.showMessageDialog(CarrosPanelBusca.this,
+                                "O ID de busca deve conter apenas números.",
+                                "Erro", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        try {
+                            int carId = Integer.parseInt(idBusca);
+
+                            // Realizar a busca no banco de dados
+                            Class.forName("org.hsql.jdbcDriver");
+                            ResultSet rs = stmt.executeQuery("SELECT * FROM CARRO WHERE CAR_ID = " + carId);
+
+                            if (rs.next()) {
+                                // Preencher os campos de texto com os dados do carro
+                                String marca = rs.getString("MARCA");
+                                String modelo = rs.getString("MODELO");
+                                int ano = rs.getInt("ANO");
+                                String cor = rs.getString("COR");
+
+                                marcaTextField.setText(marca);
+                                modeloTextField.setText(modelo);
+                                anoTextField.setText(String.valueOf(ano));
+                                corTextField.setText(cor);
+                            } else {
+                                JOptionPane.showMessageDialog(CarrosPanelBusca.this,
+                                        "Nenhum carro encontrado com o ID informado.",
+                                        "Aviso", JOptionPane.WARNING_MESSAGE);
+                                marcaTextField.setText("");
+                                modeloTextField.setText("");
+                                anoTextField.setText("");
+                                corTextField.setText("");
+                            }
+
+                            rs.close();
+                            stmt.close();
+                            con.close();
+                        } catch (Exception ex) {
+                            System.out.println("Erro ocorreu em CarrosPanelBusca: " + ex);
+                        }
+                    }
+                }
+            });
+
+            mainPanel.add(formPanel, BorderLayout.CENTER);
+            add(mainPanel, BorderLayout.CENTER);
+            setBorder(BorderFactory.createEmptyBorder(10, 100, 10, 100));
         }
     }
 
@@ -322,6 +477,11 @@ public class Index extends JFrame implements ActionListener {
 
     // Classe para adicionar clientes
     class ClientesPanelAdiciona extends JPanel {
+        private JTextField nomeTextField;
+        private JTextField enderecoTextField;
+        private JTextField telefoneTextField;
+        private JTextField cpfTextField;
+
         public ClientesPanelAdiciona() {
             setLayout(new BorderLayout());
 
@@ -343,7 +503,7 @@ public class Index extends JFrame implements ActionListener {
             // Campo de texto para Nome
             JLabel nomeLabel = new JLabel("Nome:");
             nomeLabel.setFont(nomeLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
-            JTextField nomeTextField = new JTextField(20);
+            nomeTextField = new JTextField(20);
             nomeTextField.setFont(nomeTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
             constraints.gridx = 0;
             constraints.gridy = 0;
@@ -354,7 +514,7 @@ public class Index extends JFrame implements ActionListener {
             // Campo de texto para Endereço
             JLabel enderecoLabel = new JLabel("Endereço:");
             enderecoLabel.setFont(enderecoLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
-            JTextField enderecoTextField = new JTextField(20);
+            enderecoTextField = new JTextField(20);
             enderecoTextField.setFont(enderecoTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da
                                                                                                // fonte
             constraints.gridy = 2;
@@ -365,7 +525,7 @@ public class Index extends JFrame implements ActionListener {
             // Campo de texto para Telefone
             JLabel telefoneLabel = new JLabel("Telefone:");
             telefoneLabel.setFont(telefoneLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
-            JTextField telefoneTextField = new JTextField(20);
+            telefoneTextField = new JTextField(20);
             telefoneTextField.setFont(telefoneTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da
                                                                                                // fonte
             constraints.gridy = 4;
@@ -376,7 +536,7 @@ public class Index extends JFrame implements ActionListener {
             // Campo de texto para CPF
             JLabel cpfLabel = new JLabel("CPF:");
             cpfLabel.setFont(cpfLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
-            JTextField cpfTextField = new JTextField(20);
+            cpfTextField = new JTextField(20);
             cpfTextField.setFont(cpfTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
             constraints.gridy = 6;
             formPanel.add(cpfLabel, constraints);
@@ -395,44 +555,7 @@ public class Index extends JFrame implements ActionListener {
             adicionarButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String nome = nomeTextField.getText().trim();
-                    String endereco = enderecoTextField.getText().trim();
-                    String telefone = telefoneTextField.getText().trim();
-                    String cpf = cpfTextField.getText().trim();
-
-                    // Verificações e condições
-                    if (nome.isEmpty() || endereco.isEmpty() || telefone.isEmpty() || cpf.isEmpty()) {
-                        JOptionPane.showMessageDialog(ClientesPanelAdiciona.this,
-                                "Todos os campos devem ser preenchidos.",
-                                "Erro", JOptionPane.ERROR_MESSAGE);
-                    } else if (!nome.matches("[A-Za-zÀ-ÖØ-öø-ÿ]+")) {
-                        JOptionPane.showMessageDialog(ClientesPanelAdiciona.this,
-                                "O nome deve conter apenas letras.",
-                                "Erro", JOptionPane.ERROR_MESSAGE);
-                    } else if (!cpf.matches("\\d+")) {
-                        JOptionPane.showMessageDialog(ClientesPanelAdiciona.this,
-                                "O CPF deve conter apenas números.",
-                                "Erro", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        // Inserir os dados do cliente no banco de dados
-                        try {
-                            Class.forName("org.hsql.jdbcDriver");
-                            stmt.executeUpdate("INSERT INTO CLIENTE(NOME, ENDERECO, TELEFONE, CPF) VALUES ('" + nome
-                                    + "', '" + endereco + "', '" + telefone + "', '" + cpf + "')");
-                        } catch (Exception ex) {
-                            System.out.println(ex);
-                        }
-
-                        JOptionPane.showMessageDialog(ClientesPanelAdiciona.this,
-                                "Cliente adicionado com sucesso!\n",
-                                "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
-                        // Limpar os campos
-                        nomeTextField.setText("");
-                        enderecoTextField.setText("");
-                        telefoneTextField.setText("");
-                        cpfTextField.setText("");
-                    }
+                    adicionarButtonActionPerformed(e);
                 }
             });
 
@@ -441,6 +564,47 @@ public class Index extends JFrame implements ActionListener {
 
             add(mainPanel, BorderLayout.CENTER);
             setBorder(BorderFactory.createEmptyBorder(10, 100, 10, 0));
+        }
+
+        private void adicionarButtonActionPerformed(ActionEvent e) {
+            String nome = nomeTextField.getText().trim();
+            String endereco = enderecoTextField.getText().trim();
+            String telefone = telefoneTextField.getText().trim();
+            String cpf = cpfTextField.getText().trim();
+
+            // Verificações e condições
+            if (nome.isEmpty() || endereco.isEmpty() || telefone.isEmpty() || cpf.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Todos os campos devem ser preenchidos.",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+            } else if (!nome.matches("[A-Za-zÀ-ÖØ-öø-ÿ]+")) {
+                JOptionPane.showMessageDialog(this,
+                        "O nome deve conter apenas letras.",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+            } else if (!cpf.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this,
+                        "O CPF deve conter apenas números.",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+            } else {
+                // Inserir os dados do cliente no banco de dados
+                try {
+                    Class.forName("org.hsql.jdbcDriver");
+                    stmt.executeUpdate("INSERT INTO CLIENTE(NOME, ENDERECO, TELEFONE, CPF) VALUES ('" + nome
+                            + "', '" + endereco + "', '" + telefone + "', '" + cpf + "')");
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+
+                JOptionPane.showMessageDialog(this,
+                        "Cliente adicionado com sucesso!\n",
+                        "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+                // Limpar os campos
+                nomeTextField.setText("");
+                enderecoTextField.setText("");
+                telefoneTextField.setText("");
+                cpfTextField.setText("");
+            }
         }
     }
 
@@ -470,6 +634,11 @@ public class Index extends JFrame implements ActionListener {
 
     // Classe para adicionar pedidos
     class PedidosPanelAdiciona extends JPanel {
+        private JTextField cliIdTextField;
+        private JTextField carIdTextField;
+        private JTextField dataVendaTextField;
+        private JTextField taxaTextField;
+
         public PedidosPanelAdiciona() {
             setLayout(new BorderLayout());
 
@@ -491,7 +660,7 @@ public class Index extends JFrame implements ActionListener {
             // Campo de texto para ID Cliente
             JLabel cliIdLabel = new JLabel("ID Cliente:");
             cliIdLabel.setFont(cliIdLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
-            JTextField cliIdTextField = new JTextField(20);
+            cliIdTextField = new JTextField(20);
             cliIdTextField.setFont(cliIdTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
             constraints.gridx = 0;
             constraints.gridy = 0;
@@ -502,7 +671,7 @@ public class Index extends JFrame implements ActionListener {
             // Campo de texto para ID Carro
             JLabel carIdLabel = new JLabel("ID Carro:");
             carIdLabel.setFont(carIdLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
-            JTextField carIdTextField = new JTextField(20);
+            carIdTextField = new JTextField(20);
             carIdTextField.setFont(carIdTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
             constraints.gridy = 2;
             formPanel.add(carIdLabel, constraints);
@@ -512,7 +681,7 @@ public class Index extends JFrame implements ActionListener {
             // Campo de texto para Data de Venda
             JLabel dataVendaLabel = new JLabel("Data de Venda:");
             dataVendaLabel.setFont(dataVendaLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
-            JTextField dataVendaTextField = new JTextField(20);
+            dataVendaTextField = new JTextField(20);
             dataVendaTextField.setFont(dataVendaTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da
                                                                                                  // fonte
             constraints.gridy = 4;
@@ -523,7 +692,7 @@ public class Index extends JFrame implements ActionListener {
             // Campo de texto para Taxa
             JLabel taxaLabel = new JLabel("Taxa:");
             taxaLabel.setFont(taxaLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
-            JTextField taxaTextField = new JTextField(20);
+            taxaTextField = new JTextField(20);
             taxaTextField.setFont(taxaTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
             constraints.gridy = 6;
             formPanel.add(taxaLabel, constraints);
@@ -542,55 +711,7 @@ public class Index extends JFrame implements ActionListener {
             adicionarButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String cliId = cliIdTextField.getText().trim();
-                    String carId = carIdTextField.getText().trim();
-                    String dataVenda = dataVendaTextField.getText().trim();
-                    String taxa = taxaTextField.getText().trim();
-
-                    // Verificações e condições
-                    if (cliId.isEmpty() || carId.isEmpty() || dataVenda.isEmpty() || taxa.isEmpty()) {
-                        JOptionPane.showMessageDialog(PedidosPanelAdiciona.this,
-                                "Todos os campos devem ser preenchidos.",
-                                "Erro", JOptionPane.ERROR_MESSAGE);
-                    } else if (!cliId.matches("\\d+")) {
-                        JOptionPane.showMessageDialog(PedidosPanelAdiciona.this,
-                                "O ID do cliente deve conter apenas números.",
-                                "Erro", JOptionPane.ERROR_MESSAGE);
-                    } else if (!carId.matches("\\d+")) {
-                        JOptionPane.showMessageDialog(PedidosPanelAdiciona.this,
-                                "O ID do carro deve conter apenas números.",
-                                "Erro", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        try {
-                            // Conversão da data para o formato "YYYY-MM-DD"
-                            DateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
-                            java.util.Date utilDate = inputFormat.parse(dataVenda);
-                            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-
-                            // Inserir os dados do pedido no banco de dados
-                            int cliIdInt = Integer.parseInt(cliId);
-                            int carIdInt = Integer.parseInt(carId);
-                            float taxaFloat = Float.parseFloat(taxa);
-
-                            Class.forName("org.hsql.jdbcDriver");
-                            stmt.executeUpdate("INSERT INTO PEDIDO(CLI_ID, CAR_ID, DATAVENDA, TAXA) VALUES ("
-                                    + cliIdInt + ", " + carIdInt + ", '" + sqlDate + "', " + taxaFloat + ")");
-                            stmt.close();
-                            con.close();
-
-                            JOptionPane.showMessageDialog(PedidosPanelAdiciona.this,
-                                    "Pedido adicionado com sucesso!\n",
-                                    "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
-                            // Limpar os campos
-                            cliIdTextField.setText("");
-                            carIdTextField.setText("");
-                            dataVendaTextField.setText("");
-                            taxaTextField.setText("");
-                        } catch (Exception ex) {
-                            System.out.println("Erro ocorreu em PedidosPanelAdiciona: " + ex);
-                        }
-                    }
+                    adicionarButtonActionPerformed(e);
                 }
             });
 
@@ -599,6 +720,58 @@ public class Index extends JFrame implements ActionListener {
 
             add(mainPanel, BorderLayout.CENTER);
             setBorder(BorderFactory.createEmptyBorder(10, 100, 10, 0));
+        }
+
+        private void adicionarButtonActionPerformed(ActionEvent e) {
+            String cliId = cliIdTextField.getText().trim();
+            String carId = carIdTextField.getText().trim();
+            String dataVenda = dataVendaTextField.getText().trim();
+            String taxa = taxaTextField.getText().trim();
+
+            // Verificações e condições
+            if (cliId.isEmpty() || carId.isEmpty() || dataVenda.isEmpty() || taxa.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Todos os campos devem ser preenchidos.",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+            } else if (!cliId.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this,
+                        "O ID do cliente deve conter apenas números.",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+            } else if (!carId.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this,
+                        "O ID do carro deve conter apenas números.",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+            } else {
+                try {
+                    // Conversão da data para o formato "YYYY-MM-DD"
+                    DateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    java.util.Date utilDate = inputFormat.parse(dataVenda);
+                    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+                    // Inserir os dados do pedido no banco de dados
+                    int cliIdInt = Integer.parseInt(cliId);
+                    int carIdInt = Integer.parseInt(carId);
+                    float taxaFloat = Float.parseFloat(taxa);
+
+                    Class.forName("org.hsql.jdbcDriver");
+                    stmt.executeUpdate("INSERT INTO PEDIDO(CLI_ID, CAR_ID, DATAVENDA, TAXA) VALUES ("
+                            + cliIdInt + ", " + carIdInt + ", '" + sqlDate + "', " + taxaFloat + ")");
+                    stmt.close();
+                    con.close();
+
+                    JOptionPane.showMessageDialog(this,
+                            "Pedido adicionado com sucesso!\n",
+                            "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+                    // Limpar os campos
+                    cliIdTextField.setText("");
+                    carIdTextField.setText("");
+                    dataVendaTextField.setText("");
+                    taxaTextField.setText("");
+                } catch (Exception ex) {
+                    System.out.println("Erro ocorreu em PedidosPanelAdiciona: " + ex);
+                }
+            }
         }
     }
 
