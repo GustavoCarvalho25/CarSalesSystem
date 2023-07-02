@@ -1,10 +1,13 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Vector;
 
 public class Cliente {
 
@@ -22,7 +25,6 @@ public class Cliente {
         clientesPanelLista = new ClientesPanelLista();
     }
 
-    // Classe para adicionar clientes
     class ClientesPanelAdiciona extends JPanel {
         private JTextField nomeTextField;
         private JTextField enderecoTextField;
@@ -32,17 +34,17 @@ public class Cliente {
         public ClientesPanelAdiciona() {
             setLayout(new BorderLayout());
 
-            JPanel mainPanel = new JPanel(new BorderLayout()); // Painel principal
-            JPanel leftPanel = new JPanel(new BorderLayout()); // Painel para a imagem à esquerda
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            JPanel leftPanel = new JPanel(new BorderLayout());
 
-            // Ícone à esquerda
+            // Imagem a esquerda
             ImageIcon icon = new ImageIcon("./imgs/adiciona_Cliente.png");
             JLabel iconLabel = new JLabel(icon);
             leftPanel.add(iconLabel, BorderLayout.CENTER);
 
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.anchor = GridBagConstraints.WEST;
-            constraints.insets = new Insets(5, 5, 5, 5); // Define as margens internas dos componentes
+            constraints.insets = new Insets(5, 5, 5, 5); 
 
             JPanel formPanel = new JPanel(new GridBagLayout());
             formPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -52,7 +54,7 @@ public class Cliente {
             nomeLabel.setFont(nomeLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
             nomeTextField = new JTextField(20);
             nomeTextField.setFont(nomeTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
-            constraints.gridx = 0;
+            constraints.gridx = 0; // define as posicoes X e Y para o componente
             constraints.gridy = 0;
             formPanel.add(nomeLabel, constraints);
             constraints.gridy = 1;
@@ -62,8 +64,7 @@ public class Cliente {
             JLabel enderecoLabel = new JLabel("Endereço:");
             enderecoLabel.setFont(enderecoLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
             enderecoTextField = new JTextField(20);
-            enderecoTextField.setFont(enderecoTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da
-                                                                                               // fonte
+            enderecoTextField.setFont(enderecoTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
             constraints.gridy = 2;
             formPanel.add(enderecoLabel, constraints);
             constraints.gridy = 3;
@@ -71,10 +72,9 @@ public class Cliente {
 
             // Campo de texto para Telefone
             JLabel telefoneLabel = new JLabel("Telefone:");
-            telefoneLabel.setFont(telefoneLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
+            telefoneLabel.setFont(telefoneLabel.getFont().deriveFont(Font.BOLD, 20));
             telefoneTextField = new JTextField(20);
-            telefoneTextField.setFont(telefoneTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da
-                                                                                               // fonte
+            telefoneTextField.setFont(telefoneTextField.getFont().deriveFont(Font.PLAIN, 20));
             constraints.gridy = 4;
             formPanel.add(telefoneLabel, constraints);
             constraints.gridy = 5;
@@ -82,9 +82,9 @@ public class Cliente {
 
             // Campo de texto para CPF
             JLabel cpfLabel = new JLabel("CPF:");
-            cpfLabel.setFont(cpfLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
+            cpfLabel.setFont(cpfLabel.getFont().deriveFont(Font.BOLD, 20));
             cpfTextField = new JTextField(20);
-            cpfTextField.setFont(cpfTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
+            cpfTextField.setFont(cpfTextField.getFont().deriveFont(Font.PLAIN, 20));
             constraints.gridy = 6;
             formPanel.add(cpfLabel, constraints);
             constraints.gridy = 7;
@@ -443,13 +443,81 @@ public class Cliente {
 
     // Classe para listar clientes
     class ClientesPanelLista extends JPanel {
-        public ClientesPanelLista() {
-            setLayout(new BorderLayout());
+        private JTable table;
+        private DefaultTableModel tableModel;
 
-            // Adicione os componentes da tela de listar clientes aqui
-            JPanel panel = new JPanel();
-            panel.add(new JLabel("Tela de Listar Clientes"));
-            add(panel, BorderLayout.CENTER);
+        public ClientesPanelLista() {
+            setLayout(new GridBagLayout());
+
+            // Cria a tabela com modelo de dados padrão
+            tableModel = new DefaultTableModel();
+            table = new JTable(tableModel);
+
+            // Cria um painel rolável para a tabela
+            JScrollPane scrollPane = new JScrollPane(table);
+            GridBagConstraints gbcTable = new GridBagConstraints();
+            gbcTable.gridx = 0;
+            gbcTable.gridy = 0;
+            gbcTable.gridwidth = 2;
+            gbcTable.weightx = 1.0;
+            gbcTable.weighty = 1.0;
+            gbcTable.fill = GridBagConstraints.BOTH;
+            gbcTable.insets = new Insets(10, 10, 10, 10);
+            add(scrollPane, gbcTable);
+
+            // Cria o botão para carregar os dados
+            JButton carregarButton = new JButton("Carregar Dados");
+            GridBagConstraints gbcButton = new GridBagConstraints();
+            gbcButton.gridx = 1;
+            gbcButton.gridy = 1;
+            gbcButton.weightx = 0.0;
+            gbcButton.weighty = 0.0;
+            gbcButton.fill = GridBagConstraints.NONE;
+            gbcButton.insets = new Insets(0, 10, 10, 10);
+            gbcButton.anchor = GridBagConstraints.LAST_LINE_END;
+            add(carregarButton, gbcButton);
+            carregarButton.setPreferredSize(new Dimension(120, 30));
+
+            // Configura o tamanho preferencial da tabela
+            Dimension tablePreferredSize = new Dimension(800, 400);
+            table.setPreferredScrollableViewportSize(tablePreferredSize);
+            table.setFillsViewportHeight(true);
+
+            // Adiciona o ActionListener ao botão para carregar os dados
+            carregarButton.addActionListener(e -> carregarDados());
+        }
+
+        private void carregarDados() {
+            try {
+                // Limpa os dados da tabela
+                tableModel.setRowCount(0);
+
+                // Realiza a busca no banco de dados para obter os clientes
+                ResultSet rs = stmt.executeQuery("SELECT * FROM CLIENTE");
+
+                // Obtém os metadados das colunas
+                int columnCount = rs.getMetaData().getColumnCount();
+                Vector<String> columns = new Vector<>();
+                for (int i = 1; i <= columnCount; i++) {
+                    columns.add(rs.getMetaData().getColumnLabel(i));
+                }
+
+                // Adiciona as colunas ao modelo da tabela
+                tableModel.setColumnIdentifiers(columns);
+
+                // Preenche os dados da tabela
+                while (rs.next()) {
+                    Vector<String> rowData = new Vector<>();
+                    for (int i = 1; i <= columnCount; i++) {
+                        rowData.add(rs.getString(i));
+                    }
+                    tableModel.addRow(rowData);
+                }
+
+                rs.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ocorreu em ClientesPanelLista: " + ex);
+            }
         }
     }
 

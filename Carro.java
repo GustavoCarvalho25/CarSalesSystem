@@ -1,10 +1,14 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Vector;
 
 public class Carro {
 
@@ -437,15 +441,82 @@ public class Carro {
         }
     }
 
-    // Classe para listar carros
     class CarrosPanelLista extends JPanel {
-        public CarrosPanelLista() {
-            setLayout(new BorderLayout());
+        private JTable table;
+        private DefaultTableModel tableModel;
 
-            // Adicione os componentes da tela de listar carros aqui
-            JPanel panel = new JPanel();
-            panel.add(new JLabel("Tela de Listar Carros"));
-            add(panel, BorderLayout.CENTER);
+        public CarrosPanelLista() {
+            setLayout(new GridBagLayout());
+
+            // Cria a tabela com modelo de dados padrão
+            tableModel = new DefaultTableModel();
+            table = new JTable(tableModel);
+
+            // Cria um painel rolável para a tabela
+            JScrollPane scrollPane = new JScrollPane(table);
+            GridBagConstraints gbcTable = new GridBagConstraints();
+            gbcTable.gridx = 0;
+            gbcTable.gridy = 0;
+            gbcTable.gridwidth = 2;
+            gbcTable.weightx = 1.0;
+            gbcTable.weighty = 1.0;
+            gbcTable.fill = GridBagConstraints.BOTH;
+            gbcTable.insets = new Insets(10, 10, 10, 10);
+            add(scrollPane, gbcTable);
+
+            // Cria o botão para carregar os dados
+            JButton carregarButton = new JButton("Listar");
+            GridBagConstraints gbcButton = new GridBagConstraints();
+            gbcButton.gridx = 1;
+            gbcButton.gridy = 1;
+            gbcButton.weightx = 0.0;
+            gbcButton.weighty = 0.0;
+            gbcButton.fill = GridBagConstraints.NONE;
+            gbcButton.insets = new Insets(0, 10, 10, 10);
+            gbcButton.anchor = GridBagConstraints.LAST_LINE_END;
+            add(carregarButton, gbcButton);
+            carregarButton.setPreferredSize(new Dimension(120, 30));
+
+            // Configura o tamanho preferencial da tabela
+            Dimension tablePreferredSize = new Dimension(800, 400);
+            table.setPreferredScrollableViewportSize(tablePreferredSize);
+            table.setFillsViewportHeight(true);
+
+            // Adiciona o ActionListener ao botão para carregar os dados
+            carregarButton.addActionListener(e -> carregarDados());
+        }
+
+        private void carregarDados() {
+            try {
+                // Limpa os dados da tabela
+                tableModel.setRowCount(0);
+
+                // Realiza a busca no banco de dados para obter os 100 primeiros registros
+                ResultSet rs = stmt.executeQuery("SELECT * FROM CARRO");
+
+                // Obtém os metadados das colunas
+                int columnCount = rs.getMetaData().getColumnCount();
+                Vector<String> columns = new Vector<>();
+                for (int i = 1; i <= columnCount; i++) {
+                    columns.add(rs.getMetaData().getColumnLabel(i));
+                }
+
+                // Adiciona as colunas ao modelo da tabela
+                tableModel.setColumnIdentifiers(columns);
+
+                // Preenche os dados da tabela
+                while (rs.next()) {
+                    Vector<String> rowData = new Vector<>();
+                    for (int i = 1; i <= columnCount; i++) {
+                        rowData.add(rs.getString(i));
+                    }
+                    tableModel.addRow(rowData);
+                }
+
+                rs.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ocorreu em CarrosPanelLista: " + ex);
+            }
         }
     }
 }
