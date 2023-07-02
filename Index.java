@@ -27,6 +27,7 @@ public class Index extends JFrame implements ActionListener {
     private Pedido pedido;
 
     public static void main(String[] args) {
+        CriaTabelas.CriaTabelasSistema();
         new Index();
     }
 
@@ -44,7 +45,6 @@ public class Index extends JFrame implements ActionListener {
         this.carro = new Carro(con, stmt);
         this.cliente = new Cliente(con, stmt);
         this.pedido = new Pedido(con, stmt);
-        CriaTabelas.CriaTabelasSistema(con, stmt);
         pack();
         setLocationRelativeTo(null);
 
@@ -143,7 +143,7 @@ public class Index extends JFrame implements ActionListener {
             stmt = con.createStatement();
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null,
-                    "Erro deu em Index" + "O driver do banco de dados não foi encontrado.\n" + ex, "Erro",
+                    "O driver do banco de dados não foi encontrado.\n" + ex, "Erro",
                     JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         } catch (SQLException ex) {
