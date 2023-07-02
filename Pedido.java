@@ -1,7 +1,5 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
@@ -35,8 +33,8 @@ public class Pedido {
         public PedidosPanelAdiciona() {
             setLayout(new BorderLayout());
 
-            JPanel mainPanel = new JPanel(new BorderLayout()); // Painel principal
-            JPanel leftPanel = new JPanel(new BorderLayout()); // Painel para a imagem à esquerda
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            JPanel leftPanel = new JPanel(new BorderLayout());
 
             // Ícone à esquerda
             ImageIcon icon = new ImageIcon("./imgs/adiciona_Pedido.png");
@@ -47,6 +45,7 @@ public class Pedido {
             constraints.anchor = GridBagConstraints.WEST;
             constraints.insets = new Insets(5, 5, 5, 5); // Define as margens internas dos componentes
 
+            // Formulario
             JPanel formPanel = new JPanel(new GridBagLayout());
             formPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
@@ -63,9 +62,9 @@ public class Pedido {
 
             // Campo de texto para ID Carro
             JLabel carIdLabel = new JLabel("ID Carro:");
-            carIdLabel.setFont(carIdLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
+            carIdLabel.setFont(carIdLabel.getFont().deriveFont(Font.BOLD, 20));
             carIdTextField = new JTextField(20);
-            carIdTextField.setFont(carIdTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
+            carIdTextField.setFont(carIdTextField.getFont().deriveFont(Font.PLAIN, 20));
             constraints.gridy = 2;
             formPanel.add(carIdLabel, constraints);
             constraints.gridy = 3;
@@ -73,10 +72,9 @@ public class Pedido {
 
             // Campo de texto para Data de Venda
             JLabel dataVendaLabel = new JLabel("Data de Venda:");
-            dataVendaLabel.setFont(dataVendaLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
+            dataVendaLabel.setFont(dataVendaLabel.getFont().deriveFont(Font.BOLD, 20));
             dataVendaTextField = new JTextField(20);
-            dataVendaTextField.setFont(dataVendaTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da
-                                                                                                 // fonte
+            dataVendaTextField.setFont(dataVendaTextField.getFont().deriveFont(Font.PLAIN, 20));
             constraints.gridy = 4;
             formPanel.add(dataVendaLabel, constraints);
             constraints.gridy = 5;
@@ -84,9 +82,9 @@ public class Pedido {
 
             // Campo de texto para Taxa
             JLabel taxaLabel = new JLabel("Taxa:");
-            taxaLabel.setFont(taxaLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
+            taxaLabel.setFont(taxaLabel.getFont().deriveFont(Font.BOLD, 20));
             taxaTextField = new JTextField(20);
-            taxaTextField.setFont(taxaTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
+            taxaTextField.setFont(taxaTextField.getFont().deriveFont(Font.PLAIN, 20));
             constraints.gridy = 6;
             formPanel.add(taxaLabel, constraints);
             constraints.gridy = 7;
@@ -121,7 +119,7 @@ public class Pedido {
             String dataVenda = dataVendaTextField.getText().trim();
             String taxa = taxaTextField.getText().trim();
 
-            // Verificações e condições
+            // Verifica condicoes
             if (cliId.isEmpty() || carId.isEmpty() || dataVenda.isEmpty() || taxa.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
                         "Todos os campos devem ser preenchidos.",
@@ -136,12 +134,12 @@ public class Pedido {
                         "Erro", JOptionPane.ERROR_MESSAGE);
             } else {
                 try {
-                    // Conversão da data para o formato "YYYY-MM-DD"
+                    // Conversão da data para exibicao"
                     DateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
                     java.util.Date utilDate = inputFormat.parse(dataVenda);
                     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
-                    // Inserir os dados do pedido no banco de dados
+                    // Recebe os dados dos campos
                     int cliIdInt = Integer.parseInt(cliId);
                     int carIdInt = Integer.parseInt(carId);
                     float taxaFloat = Float.parseFloat(taxa);
@@ -166,7 +164,6 @@ public class Pedido {
         }
     }
 
-    // Classe para buscar pedidos
     public class PedidosPanelBusca extends JPanel {
         private JTextField idBuscaTextField;
         private JTextField idClienteTextField;
@@ -178,10 +175,7 @@ public class Pedido {
         public PedidosPanelBusca() {
             setLayout(new BorderLayout());
 
-            // Painel principal
             JPanel mainPanel = new JPanel(new BorderLayout());
-
-            // Painel para o formulário de pesquisa
             JPanel formPanel = new JPanel(new GridBagLayout());
             formPanel.setBorder(BorderFactory.createEmptyBorder(5, 100, 5, 0));
 
@@ -325,11 +319,10 @@ public class Pedido {
             int pedidoId = Integer.parseInt(idBusca);
 
             try {
-                // Realizar a busca no banco de dados
                 ResultSet rs = stmt.executeQuery("SELECT * FROM PEDIDO WHERE PED_ID = " + pedidoId);
 
                 if (rs.next()) {
-                    // Preencher os campos de texto com os dados do pedido
+                    // Preenche os campos de texto com os dados do pedido
                     int clienteId = rs.getInt("CLI_ID");
                     int carroId = rs.getInt("CAR_ID");
                     java.sql.Date dataVenda = rs.getDate("DATAVENDA");
@@ -338,7 +331,7 @@ public class Pedido {
                     idClienteTextField.setText(String.valueOf(clienteId));
                     idCarroTextField.setText(String.valueOf(carroId));
 
-                    // Formatação da data para exibição no formato DD/MM/YYYY
+                    // Formata a data para o formato correto
                     DateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
                     String formattedDataVenda = outputFormat.format(dataVenda);
                     dataVendaTextField.setText(formattedDataVenda);
@@ -376,10 +369,7 @@ public class Pedido {
                 int pedidoId = Integer.parseInt(idBusca);
 
                 try {
-                    // Realize a exclusão do pedido no banco de dados
                     Class.forName("org.hsql.jdbcDriver");
-
-                    // Execute o comando SQL para excluir o pedido
                     String sql = "DELETE FROM PEDIDO WHERE PED_ID = " + pedidoId;
                     int rowsAffected = stmt.executeUpdate(sql);
 
@@ -419,15 +409,12 @@ public class Pedido {
             double taxa = Double.parseDouble(taxaTextField.getText().trim());
 
             try {
-                // Conversão da data para o formato "YYYY-MM-DD"
+                // Formata a data
                 DateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
                 java.util.Date utilDate = inputFormat.parse(dataVenda);
                 java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
-                // Realize a alteração do pedido no banco de dados
                 Class.forName("org.hsql.jdbcDriver");
-
-                // Execute o comando SQL para alterar o pedido
                 String sql = "UPDATE PEDIDO SET CLI_ID = " + clienteId + ", CAR_ID = " + carroId +
                         ", DATAVENDA = '" + sqlDate + "', TAXA = " + taxa +
                         " WHERE PED_ID = " + pedidoId;
@@ -463,11 +450,11 @@ public class Pedido {
         public PedidosPanelLista() {
             setLayout(new GridBagLayout());
 
-            // Cria a tabela com modelo de dados padrão
+            // Cria a tabela
             tableModel = new DefaultTableModel();
             table = new JTable(tableModel);
 
-            // Cria um painel rolável para a tabela
+            // Cria um painel rolavel para a tabela
             JScrollPane scrollPane = new JScrollPane(table);
             GridBagConstraints gbcTable = new GridBagConstraints();
             gbcTable.gridx = 0;
@@ -479,7 +466,7 @@ public class Pedido {
             gbcTable.insets = new Insets(10, 10, 10, 10);
             add(scrollPane, gbcTable);
 
-            // Cria o botão para carregar os dados
+            // Cria o botao para carregar os dados
             JButton carregarButton = new JButton("Listar");
             GridBagConstraints gbcButton = new GridBagConstraints();
             gbcButton.gridx = 1;
@@ -492,34 +479,30 @@ public class Pedido {
             add(carregarButton, gbcButton);
             carregarButton.setPreferredSize(new Dimension(120, 30));
 
-            // Configura o tamanho preferencial da tabela
+            // Tamanho tabela
             Dimension tablePreferredSize = new Dimension(800, 400);
             table.setPreferredScrollableViewportSize(tablePreferredSize);
             table.setFillsViewportHeight(true);
 
-            // Adiciona o ActionListener ao botão para carregar os dados
             carregarButton.addActionListener(e -> carregarDados());
         }
 
         private void carregarDados() {
             try {
-                // Limpa os dados da tabela
                 tableModel.setRowCount(0);
-
-                // Realiza a busca no banco de dados para obter os pedidos
                 ResultSet rs = stmt.executeQuery("SELECT * FROM PEDIDO");
 
-                // Obtém os metadados das colunas
+                // Recebe dados da coluna
                 int columnCount = rs.getMetaData().getColumnCount();
                 Vector<String> columns = new Vector<>();
                 for (int i = 1; i <= columnCount; i++) {
                     columns.add(rs.getMetaData().getColumnLabel(i));
                 }
 
-                // Adiciona as colunas ao modelo da tabela
+                // Adiciona as colunas na tabela
                 tableModel.setColumnIdentifiers(columns);
 
-                // Preenche os dados da tabela
+                // Preenche a tabela
                 while (rs.next()) {
                     Vector<String> rowData = new Vector<>();
                     for (int i = 1; i <= columnCount; i++) {

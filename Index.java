@@ -1,11 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class Index extends JFrame implements ActionListener {
 
@@ -204,7 +201,7 @@ public class Index extends JFrame implements ActionListener {
 
             ImageIcon imageIcon = new ImageIcon("./imgs/home_Carro.png");
             JLabel imageLabel = new JLabel(imageIcon);
-            imageLabel.setBorder(new EmptyBorder(0, 60, 0, 0)); // Define a margem interna esquerda
+            imageLabel.setBorder(new EmptyBorder(0, 60, 0, 0));
             add(imageLabel, BorderLayout.WEST);
 
             JLabel welcomeLabel = new JLabel("Bem-vindo ao CSS!");

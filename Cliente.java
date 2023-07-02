@@ -1,12 +1,8 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 public class Cliente {
@@ -44,7 +40,7 @@ public class Cliente {
 
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.anchor = GridBagConstraints.WEST;
-            constraints.insets = new Insets(5, 5, 5, 5); 
+            constraints.insets = new Insets(5, 5, 5, 5);
 
             JPanel formPanel = new JPanel(new GridBagLayout());
             formPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -53,7 +49,7 @@ public class Cliente {
             JLabel nomeLabel = new JLabel("Nome:");
             nomeLabel.setFont(nomeLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
             nomeTextField = new JTextField(20);
-            nomeTextField.setFont(nomeTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
+            nomeTextField.setFont(nomeTextField.getFont().deriveFont(Font.PLAIN, 20));
             constraints.gridx = 0; // define as posicoes X e Y para o componente
             constraints.gridy = 0;
             formPanel.add(nomeLabel, constraints);
@@ -62,9 +58,9 @@ public class Cliente {
 
             // Campo de texto para Endereço
             JLabel enderecoLabel = new JLabel("Endereço:");
-            enderecoLabel.setFont(enderecoLabel.getFont().deriveFont(Font.BOLD, 20)); // Ajusta o tamanho da fonte
+            enderecoLabel.setFont(enderecoLabel.getFont().deriveFont(Font.BOLD, 20));
             enderecoTextField = new JTextField(20);
-            enderecoTextField.setFont(enderecoTextField.getFont().deriveFont(Font.PLAIN, 20)); // Ajusta o tamanho da fonte
+            enderecoTextField.setFont(enderecoTextField.getFont().deriveFont(Font.PLAIN, 20));
             constraints.gridy = 2;
             formPanel.add(enderecoLabel, constraints);
             constraints.gridy = 3;
@@ -133,7 +129,6 @@ public class Cliente {
                         "O CPF deve conter apenas números.",
                         "Erro", JOptionPane.ERROR_MESSAGE);
             } else {
-                // Inserir os dados do cliente no banco de dados
                 try {
                     Class.forName("org.hsql.jdbcDriver");
                     stmt.executeUpdate("INSERT INTO CLIENTE(NOME, ENDERECO, TELEFONE, CPF) VALUES ('" + nome
@@ -146,7 +141,6 @@ public class Cliente {
                         "Cliente adicionado com sucesso!\n",
                         "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
-                // Limpar os campos
                 nomeTextField.setText("");
                 enderecoTextField.setText("");
                 telefoneTextField.setText("");
@@ -155,7 +149,6 @@ public class Cliente {
         }
     }
 
-    // Classe para buscar clientes
     public class ClientesPanelBusca extends JPanel {
         private JTextField idBuscaTextField;
         private JTextField nomeTextField;
@@ -167,13 +160,11 @@ public class Cliente {
         public ClientesPanelBusca() {
             setLayout(new BorderLayout());
 
-            // Painel principal
             JPanel mainPanel = new JPanel(new BorderLayout());
-
-            // Painel para o formulário de pesquisa
             JPanel formPanel = new JPanel(new GridBagLayout());
             formPanel.setBorder(BorderFactory.createEmptyBorder(5, 100, 5, 0));
 
+            // Propriedades do grid para formulario
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.anchor = GridBagConstraints.WEST;
             constraints.insets = new Insets(5, 5, 5, 5);
@@ -227,26 +218,24 @@ public class Cliente {
             constraints.gridy = 9;
             formPanel.add(cpfTextField, constraints);
 
-            // Painel para exibir a imagem
+            // Painel para a imagem
             JPanel imagePanel = new JPanel(new BorderLayout());
             imagePanel.setBorder(BorderFactory.createEmptyBorder(5, 100, 5, 20));
             imageLabel = new JLabel();
             imagePanel.add(imageLabel, BorderLayout.CENTER);
 
-            // Adicionar painéis ao painel principal
+            // Adiciona paineis ao painel principal
             mainPanel.add(formPanel, BorderLayout.WEST);
             mainPanel.add(imagePanel, BorderLayout.CENTER);
-
             add(mainPanel, BorderLayout.CENTER);
             setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-            // Carregar a imagem da pasta "imgs" e definir no JLabel
             ImageIcon imageIcon = new ImageIcon("./imgs/busca_Cliente.png");
             Image image = imageIcon.getImage().getScaledInstance(512, 512, Image.SCALE_SMOOTH);
             imageIcon = new ImageIcon(image);
             imageLabel.setIcon(imageIcon);
 
-            // Botões "Excluir", "Alterar" e "Buscar"
+            // Botoes do formulario
             JButton excluirButton = new JButton("Excluir");
             excluirButton.setFont(excluirButton.getFont().deriveFont(Font.BOLD, 20));
             JButton alterarButton = new JButton("Alterar");
@@ -254,7 +243,7 @@ public class Cliente {
             JButton buscarButton = new JButton("Buscar");
             buscarButton.setFont(buscarButton.getFont().deriveFont(Font.BOLD, 20));
 
-            // Painel para os botões
+            // Painel dos botoes
             JPanel buttonsPanel = new JPanel();
             buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
             buttonsPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
@@ -299,7 +288,6 @@ public class Cliente {
         private void buscarButtonActionPerformed(ActionEvent e) {
             String idBusca = idBuscaTextField.getText().trim();
 
-            // Verificação e condição
             if (idBusca.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
                         "O campo de busca por ID está vazio.",
@@ -311,12 +299,10 @@ public class Cliente {
             } else {
                 try {
                     int clienteId = Integer.parseInt(idBusca);
-
-                    // Realizar a busca no banco de dados
                     ResultSet rs = stmt.executeQuery("SELECT * FROM CLIENTE WHERE CLI_ID = " + clienteId);
 
                     if (rs.next()) {
-                        // Preencher os campos de texto com os dados do cliente
+                        // Preencher os campos com os dados do cliente
                         String nome = rs.getString("NOME");
                         String endereco = rs.getString("ENDERECO");
                         String telefone = rs.getString("TELEFONE");
@@ -348,7 +334,7 @@ public class Cliente {
                     "Confirmação",
                     JOptionPane.YES_NO_OPTION);
             if (resposta == JOptionPane.YES_OPTION) {
-                // Obtenha o ID do cliente a ser excluído
+
                 String idBusca = idBuscaTextField.getText().trim();
                 if (idBusca.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "O campo de busca por ID está vazio.", "Erro",
@@ -363,15 +349,11 @@ public class Cliente {
                 int clienteId = Integer.parseInt(idBusca);
 
                 try {
-                    // Realize a exclusão do cliente no banco de dados
                     Class.forName("org.hsql.jdbcDriver");
-
-                    // Execute o comando SQL para excluir o cliente
                     String sql = "DELETE FROM CLIENTE WHERE CLI_ID = " + clienteId;
                     int rowsAffected = stmt.executeUpdate(sql);
 
                     if (rowsAffected > 0) {
-                        // Limpe os campos de texto
                         nomeTextField.setText("");
                         enderecoTextField.setText("");
                         telefoneTextField.setText("");
@@ -391,7 +373,6 @@ public class Cliente {
         }
 
         private void alterarButtonActionPerformed(ActionEvent e) {
-            // Obtenha o ID do cliente a ser alterado
             String idBusca = idBuscaTextField.getText().trim();
             if (idBusca.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "O campo de busca por ID está vazio.", "Erro",
@@ -405,7 +386,6 @@ public class Cliente {
             }
             int clienteId = Integer.parseInt(idBusca);
 
-            // Obtenha os novos dados do cliente dos campos de texto
             String nome = nomeTextField.getText().trim();
             String endereco = enderecoTextField.getText().trim();
             String telefone = telefoneTextField.getText().trim();
@@ -418,10 +398,7 @@ public class Cliente {
             }
 
             try {
-                // Realize a alteração do cliente no banco de dados
                 Class.forName("org.hsql.jdbcDriver");
-
-                // Execute o comando SQL para alterar o cliente
                 String sql = "UPDATE CLIENTE SET NOME = '" + nome + "', ENDERECO = '" + endereco + "', TELEFONE = '"
                         + telefone
                         + "', CPF = '" + cpf + "' WHERE CLI_ID = " + clienteId;
@@ -441,7 +418,6 @@ public class Cliente {
         }
     }
 
-    // Classe para listar clientes
     class ClientesPanelLista extends JPanel {
         private JTable table;
         private DefaultTableModel tableModel;
@@ -449,11 +425,9 @@ public class Cliente {
         public ClientesPanelLista() {
             setLayout(new GridBagLayout());
 
-            // Cria a tabela com modelo de dados padrão
             tableModel = new DefaultTableModel();
             table = new JTable(tableModel);
 
-            // Cria um painel rolável para a tabela
             JScrollPane scrollPane = new JScrollPane(table);
             GridBagConstraints gbcTable = new GridBagConstraints();
             gbcTable.gridx = 0;
@@ -465,7 +439,6 @@ public class Cliente {
             gbcTable.insets = new Insets(10, 10, 10, 10);
             add(scrollPane, gbcTable);
 
-            // Cria o botão para carregar os dados
             JButton carregarButton = new JButton("Carregar Dados");
             GridBagConstraints gbcButton = new GridBagConstraints();
             gbcButton.gridx = 1;
@@ -478,34 +451,27 @@ public class Cliente {
             add(carregarButton, gbcButton);
             carregarButton.setPreferredSize(new Dimension(120, 30));
 
-            // Configura o tamanho preferencial da tabela
             Dimension tablePreferredSize = new Dimension(800, 400);
             table.setPreferredScrollableViewportSize(tablePreferredSize);
             table.setFillsViewportHeight(true);
 
-            // Adiciona o ActionListener ao botão para carregar os dados
             carregarButton.addActionListener(e -> carregarDados());
         }
 
         private void carregarDados() {
             try {
-                // Limpa os dados da tabela
                 tableModel.setRowCount(0);
 
-                // Realiza a busca no banco de dados para obter os clientes
                 ResultSet rs = stmt.executeQuery("SELECT * FROM CLIENTE");
 
-                // Obtém os metadados das colunas
                 int columnCount = rs.getMetaData().getColumnCount();
                 Vector<String> columns = new Vector<>();
                 for (int i = 1; i <= columnCount; i++) {
                     columns.add(rs.getMetaData().getColumnLabel(i));
                 }
 
-                // Adiciona as colunas ao modelo da tabela
                 tableModel.setColumnIdentifiers(columns);
 
-                // Preenche os dados da tabela
                 while (rs.next()) {
                     Vector<String> rowData = new Vector<>();
                     for (int i = 1; i <= columnCount; i++) {

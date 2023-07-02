@@ -296,7 +296,6 @@ public class Carro {
         private void buscarButtonActionPerformed(ActionEvent e) {
             String idBusca = idBuscaTextField.getText().trim();
 
-            // Verificação e condição
             if (idBusca.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
                         "O campo de busca por ID está vazio.",
@@ -309,11 +308,9 @@ public class Carro {
                 try {
                     int carId = Integer.parseInt(idBusca);
 
-                    // Realizar a busca no banco de dados
                     ResultSet rs = stmt.executeQuery("SELECT * FROM CARRO WHERE CAR_ID = " + carId);
 
                     if (rs.next()) {
-                        // Preencher os campos de texto com os dados do carro
                         String marca = rs.getString("MARCA");
                         String modelo = rs.getString("MODELO");
                         float preco = rs.getFloat("PRECO");
@@ -344,7 +341,6 @@ public class Carro {
             int resposta = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja excluir o carro?", "Confirmação",
                     JOptionPane.YES_NO_OPTION);
             if (resposta == JOptionPane.YES_OPTION) {
-                // Obtenha o ID do carro a ser excluído
                 String idBusca = idBuscaTextField.getText().trim();
                 if (idBusca.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "O campo de busca por ID está vazio.", "Erro",
@@ -359,15 +355,12 @@ public class Carro {
                 int carId = Integer.parseInt(idBusca);
 
                 try {
-                    // Realize a exclusão do carro no banco de dados
                     Class.forName("org.hsql.jdbcDriver");
 
-                    // Execute o comando SQL para excluir o carro
                     String sql = "DELETE FROM CARRO WHERE CAR_ID = " + carId;
                     int rowsAffected = stmt.executeUpdate(sql);
 
                     if (rowsAffected > 0) {
-                        // Limpe os campos de texto
                         marcaTextField.setText("");
                         modeloTextField.setText("");
                         precoTextField.setText("");
@@ -387,7 +380,6 @@ public class Carro {
         }
 
         private void alterarButtonActionPerformed(ActionEvent e) {
-            // Obtenha o ID do carro a ser alterado
             String idBusca = idBuscaTextField.getText().trim();
             if (idBusca.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "O campo de busca por ID está vazio.", "Erro",
@@ -400,8 +392,6 @@ public class Carro {
                 return;
             }
             int carId = Integer.parseInt(idBusca);
-
-            // Obtenha os novos dados do carro dos campos de texto
             String marca = marcaTextField.getText().trim();
             String modelo = modeloTextField.getText().trim();
             String precoStr = precoTextField.getText().trim();
@@ -416,10 +406,7 @@ public class Carro {
             try {
                 float preco = Float.parseFloat(precoStr);
 
-                // Realize a alteração do carro no banco de dados
                 Class.forName("org.hsql.jdbcDriver");
-
-                // Execute o comando SQL para alterar o carro
                 String sql = "UPDATE CARRO SET MARCA = '" + marca + "', MODELO = '" + modelo + "', PRECO = " + preco
                         + ", COR = '" + cor + "' WHERE CAR_ID = " + carId;
                 int rowsAffected = stmt.executeUpdate(sql);
@@ -448,11 +435,9 @@ public class Carro {
         public CarrosPanelLista() {
             setLayout(new GridBagLayout());
 
-            // Cria a tabela com modelo de dados padrão
             tableModel = new DefaultTableModel();
             table = new JTable(tableModel);
 
-            // Cria um painel rolável para a tabela
             JScrollPane scrollPane = new JScrollPane(table);
             GridBagConstraints gbcTable = new GridBagConstraints();
             gbcTable.gridx = 0;
@@ -464,7 +449,6 @@ public class Carro {
             gbcTable.insets = new Insets(10, 10, 10, 10);
             add(scrollPane, gbcTable);
 
-            // Cria o botão para carregar os dados
             JButton carregarButton = new JButton("Listar");
             GridBagConstraints gbcButton = new GridBagConstraints();
             gbcButton.gridx = 1;
@@ -477,34 +461,27 @@ public class Carro {
             add(carregarButton, gbcButton);
             carregarButton.setPreferredSize(new Dimension(120, 30));
 
-            // Configura o tamanho preferencial da tabela
             Dimension tablePreferredSize = new Dimension(800, 400);
             table.setPreferredScrollableViewportSize(tablePreferredSize);
             table.setFillsViewportHeight(true);
 
-            // Adiciona o ActionListener ao botão para carregar os dados
             carregarButton.addActionListener(e -> carregarDados());
         }
 
         private void carregarDados() {
             try {
-                // Limpa os dados da tabela
                 tableModel.setRowCount(0);
 
-                // Realiza a busca no banco de dados para obter os 100 primeiros registros
                 ResultSet rs = stmt.executeQuery("SELECT * FROM CARRO");
 
-                // Obtém os metadados das colunas
                 int columnCount = rs.getMetaData().getColumnCount();
                 Vector<String> columns = new Vector<>();
                 for (int i = 1; i <= columnCount; i++) {
                     columns.add(rs.getMetaData().getColumnLabel(i));
                 }
 
-                // Adiciona as colunas ao modelo da tabela
                 tableModel.setColumnIdentifiers(columns);
 
-                // Preenche os dados da tabela
                 while (rs.next()) {
                     Vector<String> rowData = new Vector<>();
                     for (int i = 1; i <= columnCount; i++) {
