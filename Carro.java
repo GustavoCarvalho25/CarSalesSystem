@@ -155,12 +155,17 @@ public class Carro {
         private JTextField modeloTextField;
         private JTextField precoTextField;
         private JTextField corTextField;
+        private JLabel imageLabel;
 
         public CarrosPanelBusca() {
             setLayout(new BorderLayout());
 
+            // Painel principal
             JPanel mainPanel = new JPanel(new BorderLayout());
+
+            // Painel para o formulário de pesquisa
             JPanel formPanel = new JPanel(new GridBagLayout());
+            formPanel.setBorder(BorderFactory.createEmptyBorder(5, 100, 5, 0));
 
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.anchor = GridBagConstraints.WEST;
@@ -168,71 +173,99 @@ public class Carro {
 
             // Campo de busca por ID
             JLabel idBuscaLabel = new JLabel("ID de busca:");
-            idBuscaLabel.setFont(idBuscaLabel.getFont().deriveFont(Font.BOLD, 16));
-            idBuscaTextField = new JTextField(10);
+            idBuscaLabel.setFont(idBuscaLabel.getFont().deriveFont(Font.BOLD, 20));
+            idBuscaTextField = new JTextField(20);
+            idBuscaTextField.setFont(idBuscaTextField.getFont().deriveFont(Font.PLAIN, 20));
             constraints.gridx = 0;
             constraints.gridy = 0;
             formPanel.add(idBuscaLabel, constraints);
             constraints.gridy = 1;
             formPanel.add(idBuscaTextField, constraints);
 
-            // Botão "Buscar"
-            JButton buscarButton = new JButton("Buscar");
-            constraints.gridx = 1;
-            constraints.gridy = 1;
-            constraints.insets = new Insets(5, 10, 5, 5);
-            formPanel.add(buscarButton, constraints);
-
             // Campos de texto para exibir os dados do carro
             JLabel marcaLabel = new JLabel("Marca:");
-            marcaLabel.setFont(marcaLabel.getFont().deriveFont(Font.BOLD, 16));
+            marcaLabel.setFont(marcaLabel.getFont().deriveFont(Font.BOLD, 20));
             marcaTextField = new JTextField(20);
+            marcaTextField.setFont(marcaTextField.getFont().deriveFont(Font.PLAIN, 20));
             constraints.gridx = 0;
             constraints.gridy = 2;
-            constraints.insets = new Insets(10, 5, 5, 5);
             formPanel.add(marcaLabel, constraints);
             constraints.gridy = 3;
             formPanel.add(marcaTextField, constraints);
 
             JLabel modeloLabel = new JLabel("Modelo:");
-            modeloLabel.setFont(modeloLabel.getFont().deriveFont(Font.BOLD, 16));
+            modeloLabel.setFont(modeloLabel.getFont().deriveFont(Font.BOLD, 20));
             modeloTextField = new JTextField(20);
+            modeloTextField.setFont(modeloTextField.getFont().deriveFont(Font.PLAIN, 20));
             constraints.gridy = 4;
             formPanel.add(modeloLabel, constraints);
             constraints.gridy = 5;
             formPanel.add(modeloTextField, constraints);
 
             JLabel precoLabel = new JLabel("Preço:");
-            precoLabel.setFont(precoLabel.getFont().deriveFont(Font.BOLD, 16));
+            precoLabel.setFont(precoLabel.getFont().deriveFont(Font.BOLD, 20));
             precoTextField = new JTextField(20);
+            precoTextField.setFont(precoTextField.getFont().deriveFont(Font.PLAIN, 20));
             constraints.gridy = 6;
             formPanel.add(precoLabel, constraints);
             constraints.gridy = 7;
             formPanel.add(precoTextField, constraints);
 
             JLabel corLabel = new JLabel("Cor:");
-            corLabel.setFont(corLabel.getFont().deriveFont(Font.BOLD, 16));
+            corLabel.setFont(corLabel.getFont().deriveFont(Font.BOLD, 20));
             corTextField = new JTextField(20);
+            corTextField.setFont(corTextField.getFont().deriveFont(Font.PLAIN, 20));
             constraints.gridy = 8;
             formPanel.add(corLabel, constraints);
             constraints.gridy = 9;
             formPanel.add(corTextField, constraints);
 
-            // Botões "Excluir" e "Alterar"
+            // Painel para exibir a imagem
+            JPanel imagePanel = new JPanel(new BorderLayout());
+            imagePanel.setBorder(BorderFactory.createEmptyBorder(5, 100, 5, 20));
+            imageLabel = new JLabel();
+            imagePanel.add(imageLabel, BorderLayout.CENTER);
+
+            // Adicionar painéis ao painel principal
+            mainPanel.add(formPanel, BorderLayout.WEST);
+            mainPanel.add(imagePanel, BorderLayout.CENTER);
+
+            add(mainPanel, BorderLayout.CENTER);
+            setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+            // Carregar a imagem da pasta "imgs" e definir no JLabel
+            ImageIcon imageIcon = new ImageIcon("./imgs/busca_Carro.png");
+            Image image = imageIcon.getImage().getScaledInstance(512, 512, Image.SCALE_SMOOTH);
+            imageIcon = new ImageIcon(image);
+            imageLabel.setIcon(imageIcon);
+
+            // Botões "Excluir", "Alterar" e "Buscar"
             JButton excluirButton = new JButton("Excluir");
+            excluirButton.setFont(excluirButton.getFont().deriveFont(Font.BOLD, 20));
             JButton alterarButton = new JButton("Alterar");
+            alterarButton.setFont(alterarButton.getFont().deriveFont(Font.BOLD, 20));
+            JButton buscarButton = new JButton("Buscar");
+            buscarButton.setFont(buscarButton.getFont().deriveFont(Font.BOLD, 20));
+
+            // Painel para os botões
+            JPanel buttonsPanel = new JPanel();
+            buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
+            buttonsPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+
+            // Adiciona um espaçamento entre os botões
+            buttonsPanel.add(Box.createHorizontalStrut(10));
+            buttonsPanel.add(excluirButton);
+            buttonsPanel.add(Box.createHorizontalStrut(10));
+            buttonsPanel.add(alterarButton);
+            buttonsPanel.add(Box.createHorizontalStrut(10));
+            buttonsPanel.add(buscarButton);
+
             constraints.gridx = 0;
             constraints.gridy = 10;
             constraints.gridwidth = 2;
             constraints.anchor = GridBagConstraints.CENTER;
             constraints.insets = new Insets(20, 0, 0, 0);
-            formPanel.add(excluirButton, constraints);
-            constraints.gridy = 11;
-            formPanel.add(alterarButton, constraints);
-
-            mainPanel.add(formPanel, BorderLayout.CENTER);
-            add(mainPanel, BorderLayout.CENTER);
-            setBorder(BorderFactory.createEmptyBorder(10, 100, 10, 100));
+            formPanel.add(buttonsPanel, constraints);
 
             buscarButton.addActionListener(new ActionListener() {
                 @Override
