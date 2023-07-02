@@ -191,6 +191,7 @@ public class Index extends JFrame implements ActionListener {
 
         currentPanel = panel;
         desktop.add(currentPanel, BorderLayout.CENTER);
+        setBackground(Color.WHITE);
         currentPanel.setVisible(true);
 
         revalidate();
